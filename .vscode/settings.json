@@ -7,6 +7,9 @@
         "ostream": "cpp",
         "stack": "cpp",
         "fstream": "cpp",
-        "unordered_map": "cpp"
+        "unordered_map": "cpp",
+        "functional": "cpp",
+        "map": "cpp",
+        "cmath": "cpp"
     }
 }

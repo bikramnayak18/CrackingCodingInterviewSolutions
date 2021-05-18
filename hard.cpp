@@ -1129,23 +1129,83 @@ class WordMatrix{
 
 };
 
+class SparseMatrix{
+    unordered_map<int, vector<int>> wordToDoc;
 
+    void wordToDocMapper(int** arr, int m, int n){
+        for(int i=0;i<m;i++){
+            int value = i;
+            for(int j=0;j<n;j++){
+                int key = arr[i][j];
+                wordToDoc[key].push_back(value);
+            }
+        }
+    }
+
+    unordered_map<string, int> createIntersection(){
+        unordered_map<string, int> intersect;
+        for(auto itr = wordToDoc.begin();itr!=wordToDoc.end();itr++){
+            vector<int> docId = itr->second;
+            std::sort(docId.begin(),docId.end());
+            for(auto i = docId.begin();(i+1)!=docId.end();i++){
+                for(auto j = i+1;j!=docId.end();j++){
+                    string key =to_string(*i) +" " + to_string(*j);
+                   
+                    if(intersect.find(key) == intersect.end())
+                        intersect[key] = 1;
+                    else
+                        intersect[key]++;
+                }
+            }
+        }
+
+        return intersect;
+    }
+
+    public:
+    void printIntersection(int** arr, int m, int n){
+        wordToDocMapper(arr, m, n);
+        unordered_map<string, int> output = createIntersection();
+        for(auto itr = output.begin();itr!=output.end();itr++){
+            cout<<itr->first<<" intersection value "<<itr->second<<endl;
+        }
+    }
+};
+
+// int testfunction(int** arr){
+//     //do something
+//     for(int i=0;i<2;i++)
+//         for(int j=0;j<2;j++)
+//             cout<<arr[i][j]<<" ";
+//     return 1;
+// }
 
 int main(){
-    WordMatrix matrix;
-    matrix.push("abcd");
-    matrix.push("bbcd");
-    matrix.push("zzzz");
-    matrix.push("ddde");
-    matrix.push("abc");
-    matrix.push("bbc");
-    matrix.push("cc");
-    matrix.push("abd");
-    matrix.push("bbd");
-    matrix.push("ccd");
-    matrix.push("ddd");
-    //matrix.push("dd");
-    matrix.findWordRectange();
+    SparseMatrix docs;
+    int arr[4][3] = {{12,13,15},{12,13,17},{17,19,21},{99,8,77}};
+    int **p = new int*[4];
+    for(int i=0;i<4;i++)
+        p[i] = arr[i];
+    docs.printIntersection(p,3,3);
+    // int arr[2][2]={{1,2},{1,2}};
+    // int **p = new int*[2];
+    // for(int i=0;i<2;i++)
+    //     p[i] = arr[i];
+    // testfunction(p);
+    // WordMatrix matrix;
+    // matrix.push("abcd");
+    // matrix.push("bbcd");
+    // matrix.push("zzzz");
+    // matrix.push("ddde");
+    // matrix.push("abc");
+    // matrix.push("bbc");
+    // matrix.push("cc");
+    // matrix.push("abd");
+    // matrix.push("bbd");
+    // matrix.push("ccd");
+    // matrix.push("ddd");
+    // //matrix.push("dd");
+    // matrix.findWordRectange();
     // Matrix matrix(7,7);
     // int arr[7][7]={
     //             {-20,-100,-23,100,2,3,-99},
